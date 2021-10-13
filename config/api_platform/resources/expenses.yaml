@@ -1,0 +1,6 @@
+App\Entity\Expenses:
+  attributes:
+    normalization_context:
+      groups: ['expenses_read']
+    denormalization_context:
+      groups: ['expenses_write']

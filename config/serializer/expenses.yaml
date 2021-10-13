@@ -1,0 +1,14 @@
+App\Entity\Expenses:
+  attributes:
+    id:
+      groups: ['expenses_read']
+    title:
+      groups: ['expenses_read', 'expenses_write']
+    quantity:
+      groups: ['expenses_read', 'expenses_write']
+    createdAt:
+      groups: ['expenses_read']
+    updatedAt:
+      groups: ['expenses_read']
+    payDate:
+      groups: ['expenses_write']

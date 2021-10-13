@@ -1,0 +1,10 @@
+api_platform:
+    title: "Personal finances app"
+    version: "0.1.0"
+    mapping:
+        paths:
+            - "%kernel.project_dir%/config/api_platform/resources"
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]
