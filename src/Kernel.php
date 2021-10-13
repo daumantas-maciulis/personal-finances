@@ -9,6 +9,12 @@ use Symfony\Component\Routing\Loader\Configurator\RoutingConfigurator;
 
 class Kernel extends BaseKernel
 {
+    public function __construct(string $environment, bool $debug)
+    {
+        date_default_timezone_set('Europe/Vilnius');
+        parent::__construct($environment, $debug);
+    }
+
     use MicroKernelTrait;
 
     protected function configureContainer(ContainerConfigurator $container): void
