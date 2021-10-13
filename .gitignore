@@ -167,3 +167,6 @@ modules.xml
 # End of https://www.toptal.com/developers/gitignore/api/symfony,phpstorm+all
 
 /docker/mysql
+###> lexik/jwt-authentication-bundle ###
+/config/jwt/*.pem
+###< lexik/jwt-authentication-bundle ###
