@@ -4,3 +4,11 @@ App\Entity\Expenses:
       groups: ['expenses_read']
     denormalization_context:
       groups: ['expenses_write']
+  itemOperations:
+    get: ~
+    put: ~
+    delete: ~
+
+  collectionOperations:
+    get: ~
+    post: ~

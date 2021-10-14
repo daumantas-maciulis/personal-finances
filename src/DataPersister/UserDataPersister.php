@@ -4,6 +4,8 @@ namespace App\DataPersister;
 
 use ApiPlatform\Core\DataPersister\DataPersisterInterface;
 use App\Entity\User;
+use App\Entity\UserBalance;
+use App\Service\UserConfirmationEmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -11,7 +13,8 @@ class UserDataPersister implements DataPersisterInterface
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private UserPasswordHasherInterface $passwordEncoder
+        private UserPasswordHasherInterface $passwordEncoder,
+        private UserConfirmationEmailService $userConfirmationEmailService
     ){}
 
     public function supports($data): bool
@@ -28,7 +31,19 @@ class UserDataPersister implements DataPersisterInterface
             );
         }
         $this->entityManager->persist($data);
+
+        $userBalance = new UserBalance();
+        $userBalance->setTitle('Initial balance');
+        $userBalance->setPreviousValue(0);
+        $userBalance->setCurrentValue(0);
+        $userBalance->setIsIncome(true);
+        $userBalance->setOwner($data);
+
+        $this->entityManager->persist($userBalance);
+
         $this->entityManager->flush();
+
+        $this->userConfirmationEmailService->sendConfirmationEmail($data);
     }
 
     public function remove($data)

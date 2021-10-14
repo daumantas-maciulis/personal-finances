@@ -3,7 +3,7 @@ App\Entity\Expenses:
     id:
       groups: ['expenses_read']
     title:
-      groups: ['expenses_read', 'expenses_write']
+      groups: ['expenses_read', 'expenses_write',]
     quantity:
       groups: ['expenses_read', 'expenses_write']
     createdAt:
@@ -12,3 +12,7 @@ App\Entity\Expenses:
       groups: ['expenses_read']
     payDate:
       groups: ['expenses_write']
+    dueDate:
+      groups: ['expenses_read']
+    owner:
+      groups: ['expenses_read', 'expenses_write']

@@ -45,6 +45,11 @@ class Expenses
      */
     private $updatedAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="expenses")
+     */
+    private $owner;
+
     public function getId(): ?string
     {
         return $this->id;
@@ -127,5 +132,17 @@ class Expenses
         if($this->getCreatedAt() === null) {
             $this->setCreatedAt(new DateTimeImmutable('now'));
         }
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): self
+    {
+        $this->owner = $owner;
+
+        return $this;
     }
 }

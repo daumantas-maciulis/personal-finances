@@ -9,6 +9,8 @@ App\Entity\User:
     password:
       groups: ['user_write']
     firstName:
-      groups: ['user_read', 'user_write']
+      groups: ['user_read', 'user_write', 'expenses_read']
     lastName:
-      groups: ['user_read', 'user_write']
+      groups: ['user_read', 'user_write', 'expenses_read']
+    expenses:
+      groups: []

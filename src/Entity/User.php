@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -21,6 +23,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $strings = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
         $hash = substr(str_shuffle($strings), 0, 50);
         $this->setConfirmationHash($hash);
+        $this->expenses = new ArrayCollection();
+        $this->userBalances = new ArrayCollection();
     }
 
     /**
@@ -77,6 +81,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="string", nullable=true)
      */
     private string $confirmationHash;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Expenses::class, mappedBy="owner")
+     */
+    private $expenses;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserBalance::class, mappedBy="owner")
+     */
+    private $userBalances;
 
     public function getId(): ?string
     {
@@ -237,6 +251,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setConfirmationHash(string $confirmationHash): void
     {
         $this->confirmationHash = $confirmationHash;
+    }
+
+    /**
+     * @return Collection|Expenses[]
+     */
+    public function getExpenses(): Collection
+    {
+        return $this->expenses;
+    }
+
+    public function addExpense(Expenses $expense): self
+    {
+        if (!$this->expenses->contains($expense)) {
+            $this->expenses[] = $expense;
+            $expense->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExpense(Expenses $expense): self
+    {
+        if ($this->expenses->removeElement($expense)) {
+            // set the owning side to null (unless already changed)
+            if ($expense->getOwner() === $this) {
+                $expense->setOwner(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserBalance[]
+     */
+    public function getUserBalances(): Collection
+    {
+        return $this->userBalances;
+    }
+
+    public function addUserBalance(UserBalance $userBalance): self
+    {
+        if (!$this->userBalances->contains($userBalance)) {
+            $this->userBalances[] = $userBalance;
+            $userBalance->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserBalance(UserBalance $userBalance): self
+    {
+        if ($this->userBalances->removeElement($userBalance)) {
+            // set the owning side to null (unless already changed)
+            if ($userBalance->getOwner() === $this) {
+                $userBalance->setOwner(null);
+            }
+        }
+
+        return $this;
     }
 }
 
