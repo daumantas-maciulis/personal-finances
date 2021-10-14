@@ -16,6 +16,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    public function __construct()
+    {
+        $strings = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $hash = substr(str_shuffle($strings), 0, 50);
+        $this->setConfirmationHash($hash);
+    }
+
     /**
      * @ORM\Id
      * @ORM\Column(type="guid")
@@ -60,6 +67,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="date_immutable")
      */
     private $updatedAt;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private ?bool $activated = null;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private string $confirmationHash;
 
     public function getId(): ?string
     {
@@ -202,4 +219,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
     }
 
+    public function getActivated(): ?bool
+    {
+        return $this->activated;
+    }
+
+    public function setActivated(?bool $activated): void
+    {
+        $this->activated = $activated;
+    }
+
+    public function getConfirmationHash(): string
+    {
+        return $this->confirmationHash;
+    }
+
+    public function setConfirmationHash(string $confirmationHash): void
+    {
+        $this->confirmationHash = $confirmationHash;
+    }
 }
+

@@ -4,3 +4,7 @@ App\Entity\User:
       groups: ['user_read']
     denormalization_context:
       groups: ['user_write']
+  collectionOperations:
+    get: ~
+    post:
+      path: '/register'

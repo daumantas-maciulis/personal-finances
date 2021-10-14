@@ -17,6 +17,7 @@ security:
     firewalls:
         login:
             pattern: ^/api/login
+            user_checker: App\Service\Security\UserChecker
             stateless: true
             json_login:
                 username_path: email
@@ -46,6 +47,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/register, roles: PUBLIC_ACCESS }
         - { path: ^/api/, roles: IS_AUTHENTICATED_FULLY }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
