@@ -49,6 +49,11 @@ class UserBalance
     private $dateCreated;
 
     /**
+     * @ORM\Column(type="float")
+     */
+    private float $transactionValue;
+
+    /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userBalances")
      */
     private $owner;
@@ -140,6 +145,16 @@ class UserBalance
         $this->owner = $owner;
 
         return $this;
+    }
+
+    public function getTransactionValue(): float
+    {
+        return $this->transactionValue;
+    }
+
+    public function setTransactionValue(float $transactionValue): void
+    {
+        $this->transactionValue = $transactionValue;
     }
 
     /**

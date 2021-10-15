@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Expenses;
 use App\Entity\User;
+use App\Entity\UserBalance;
 use App\Service\UserPasswordService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -43,6 +44,8 @@ class AppFixtures extends Fixture
 
                 $manager->persist($expense);
             }
+
+            $manager->persist($this->setUserBalance($user));
         }
 
         $manager->flush();
@@ -66,6 +69,20 @@ class AppFixtures extends Fixture
                 'password' => 'labas'
             ]
         ];
+    }
+
+    private function setUserBalance(User $userData): UserBalance
+    {
+        $newBalance = new UserBalance();
+
+        $newBalance->setTransactionValue(0);
+        $newBalance->setIsIncome(true);
+        $newBalance->setOwner($userData);
+        $newBalance->setCurrentValue(0);
+        $newBalance->setPreviousValue(0);
+        $newBalance->setTitle('Initial value');
+
+        return $newBalance;
     }
 
 }

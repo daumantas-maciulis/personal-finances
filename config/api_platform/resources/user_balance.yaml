@@ -1,0 +1,16 @@
+App\Entity\UserBalance:
+  attributes:
+    normalization_context:
+      groups: ['balance_read']
+    denormalization_context:
+      groups: ['balance_write']
+  collectionOperations:
+    update_balance:
+      method: POST
+      security: "is_granted('ROLE_USER') or is_granted('ROLE_ADMIN')"
+      messenger: input
+      path: '/balance/update'
+      input: App\Dto\Input\UserBalance\UpdateUserBalanceRequest
+      output: false
+      status: 200
+  itemOperations: []

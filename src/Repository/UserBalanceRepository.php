@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserBalance;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,32 +20,20 @@ class UserBalanceRepository extends ServiceEntityRepository
         parent::__construct($registry, UserBalance::class);
     }
 
-    // /**
-    //  * @return UserBalance[] Returns an array of UserBalance objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getLastBalanceRecord(User $user)
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $qb = $this->createQueryBuilder('ub');
 
-    /*
-    public function findOneBySomeField($value): ?UserBalance
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
+        $qb
+            ->andWhere('ub.owner = :userId')
+            ->setParameter('userId', $user->getId())
+            ->orderBy('ub.dateCreated', 'DESC')
+            ->setMaxResults(1)
         ;
+
+
+        $result = $qb->getQuery()->getArrayResult();
+
+        return $result[0];
     }
-    */
 }
