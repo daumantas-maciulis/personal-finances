@@ -4,22 +4,32 @@ namespace App\Service\ExpensesMailing;
 
 use App\Entity\Expenses;
 use App\Entity\User;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Mailer\MailerInterface;
-use Symfony\Component\Mime\Email;
 
 class UserUpcomingExpensesService
 {
     public function __construct(
-        private MailerInterface $mailer
+        private MailerInterface $mailer,
+        private KernelInterface $kernel
     ){}
 
     public function sendUpcomingExpenses(User $user, array $expenses)
     {
-        $email = (new Email())
+        $projectRoot = $this->kernel->getProjectDir();
+        $emailTemplate = $projectRoot . '/templates/emails/upcomingExpenses.html.twig';
+
+        $email = (new TemplatedEmail())
             ->from('system@finances.com')
             ->to($user->getEmail())
             ->subject('Your upcoming payments')
             ->text($this->createMailText($user, $expenses))
+            ->htmlTemplate('emails/upcomingExpenses.html.twig')
+            ->context([
+                'user' => $user,
+                'expenses' => $expenses
+            ])
             ;
         $this->mailer->send($email);
     }
