@@ -20,7 +20,7 @@ class UserBalanceRepository extends ServiceEntityRepository
         parent::__construct($registry, UserBalance::class);
     }
 
-    public function getLastBalanceRecord(User $user)
+    public function getLastBalanceRecord(User $user): array
     {
         $qb = $this->createQueryBuilder('ub');
 
@@ -31,9 +31,20 @@ class UserBalanceRepository extends ServiceEntityRepository
             ->setMaxResults(1)
         ;
 
-
         $result = $qb->getQuery()->getArrayResult();
 
         return $result[0];
+    }
+
+    public function getUserBalanceRecords(User $user): array
+    {
+        $qb = $this->createQueryBuilder('ub');
+        $qb
+            ->andWhere('ub.owner = :userId')
+            ->setParameter('userId', $user->getId())
+            ->orderBy('ub.dateCreated', 'DESC')
+        ;
+
+        return $qb->getQuery()->getArrayResult();
     }
 }

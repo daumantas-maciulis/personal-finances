@@ -1,17 +1,34 @@
 App\Entity\UserBalance:
-  id:
-    groups: ['balance_read', 'balance_write']
-  title:
-    groups: ['balance_read', 'balance_write']
-  description:
-    groups: ['balance_read', 'balance_write']
-  previousValue:
-    groups: ['balance_read', 'balance_write']
-  currentValue:
-    groups: ['balance_read', 'balance_write']
-  isIncome:
-    groups: ['balance_read', 'balance_write']
-  dateCreated:
-    groups: ['balance_read', 'balance_write']
-  owner:
-    groups: ['balance_read', 'balance_write']
+  attributes:
+    id:
+      groups: ['balance_read', 'balance_write']
+    title:
+      groups: ['balance_read', 'balance_write']
+    description:
+      groups: ['balance_read', 'balance_write']
+    previousValue:
+      groups: ['balance_read', 'balance_write']
+    currentValue:
+      groups: ['balance_read', 'balance_write']
+    isIncome:
+      groups: ['balance_read', 'balance_write']
+    dateCreated:
+      groups: ['balance_read', 'balance_write']
+    owner:
+      groups: ['balance_read', 'balance_write']
+
+App\Dto\Output\UserBalance\UserBalanceReportOutput:
+  attributes:
+    id:
+      groups: ['balance_read', 'balance_write']
+    title:
+      groups: [ 'balance_read', 'balance_write' ]
+    description:
+      groups: [ 'balance_read', 'balance_write' ]
+    currentValue:
+      groups: [ 'balance_read', 'balance_write' ]
+    transactionValue:
+      groups: [ 'balance_read', 'balance_write' ]
+    isIncome:
+      groups: ['balance_read', 'balance_write']
+

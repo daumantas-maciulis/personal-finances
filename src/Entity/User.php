@@ -54,11 +54,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=128, nullable=true)
+     * @Assert\Length(max=64)
      */
     private string $firstName;
 
     /**
      * @ORM\Column(type="string", length=128, nullable=true)
+     * @Assert\Length(max=64)
      */
     private string $lastName;
 

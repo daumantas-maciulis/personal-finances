@@ -10,6 +10,7 @@ class UpdateUserBalanceRequest
     /**
      * @Groups("balance_write")
      * @Assert\NotBlank
+     * @Assert\Length(max=150)
      */
     private string $title;
 
@@ -22,6 +23,7 @@ class UpdateUserBalanceRequest
     /**
      * @Groups("balance_write")
      * @Assert\NotBlank
+     * @Assert\Type(type="float")
      */
     private float $value;
 

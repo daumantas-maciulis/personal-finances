@@ -164,4 +164,9 @@ class UserBalance
     {
         $this->setDateCreated(new \DateTime('now'));
     }
+
+    public function getContact(): User
+    {
+        return $this->owner;
+    }
 }

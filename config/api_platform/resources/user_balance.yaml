@@ -11,6 +11,13 @@ App\Entity\UserBalance:
       messenger: input
       path: '/balance/update'
       input: App\Dto\Input\UserBalance\UpdateUserBalanceRequest
-      output: false
+      output: App\Entity\UserBalance
       status: 200
-  itemOperations: []
+    get_personal_report:
+      method: GET
+      path: '/balance/report'
+      output: App\Dto\Output\USerBalance\UserBalanceReportOutput
+  itemOperations:
+    get:
+      security: "object.getOwner() == user"
+      path: balance/report/{id}

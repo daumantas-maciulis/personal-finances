@@ -8,3 +8,5 @@ App\Entity\User:
     get: ~
     post:
       path: '/register'
+  itemOperations:
+    get: ~
