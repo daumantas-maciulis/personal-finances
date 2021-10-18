@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Expenses;
+use App\Entity\User;
 use App\Exception\BadDateInputException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,6 +22,21 @@ class ExpensesRepository extends ServiceEntityRepository
     )
     {
         parent::__construct($registry, Expenses::class);
+    }
+
+    public function getUpcomingPayments(User $user, string $date)
+    {
+        $qb = $this->createQueryBuilder('e');
+
+        $qb
+            ->andWhere('e.owner = :userId')
+            ->andWhere('e.dueDate < :date')
+            ->setParameter('userId', $user->getId())
+            ->setParameter('date', $date)
+            ->orderBy('e.dueDate', 'ASC')
+        ;
+
+        return $qb->getQuery()->getArrayResult();
     }
 
 }

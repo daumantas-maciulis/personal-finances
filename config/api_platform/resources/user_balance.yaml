@@ -17,6 +17,10 @@ App\Entity\UserBalance:
       method: GET
       path: '/balance/report'
       output: App\Dto\Output\USerBalance\UserBalanceReportOutput
+    send_upcoming_payments_via_mail:
+      method: GET
+      path: '/balance/send-mail'
+      controller: App\Controller\Balance\UpcomingPaymentsController
   itemOperations:
     get:
       security: "object.getOwner() == user"
